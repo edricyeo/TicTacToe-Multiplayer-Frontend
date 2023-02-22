@@ -3,7 +3,7 @@ import './App.css';
 import GameBoard from './components/GameBoard';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('https://edric-tictactoe-api.onrender.com');
 
 function App() {
   const [room, setRoom] = useState('');
