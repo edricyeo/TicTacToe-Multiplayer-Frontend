@@ -3,9 +3,9 @@ import './GameBoard.css';
 
 
 const GameBoard = (props) => {
+  const { room, socket } = props.serverDetails;
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isYourTurn, setIsYourTurn] = useState(false);
-  const { room, socket } = props.serverDetails;
   const [symbol, setSymbol] = useState("O");
 
   // Receiving information from the server

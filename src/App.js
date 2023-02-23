@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './App.css';
 import GameBoard from './components/GameBoard';
 import io from 'socket.io-client';
+import JoinRoom from './components/JoinRoom';
 
-const socket = io.connect('https://edric-tictactoe-api.onrender.com');
+// const socket = io.connect('https://edric-tictactoe-api.onrender.com');
+const socket = io.connect('http://localhost:3001');
 
 function App() {
   const [room, setRoom] = useState('');
@@ -18,18 +20,13 @@ function App() {
     }
   }
 
+  const updateRoom = (newRoom) => {
+    setRoom(newRoom);
+  };
+
   return (
     <div className="App">
-      <div className = "join-room" aria-label = 'Component to allow players to join the same room'>
-            <input 
-            type = "text" 
-            placeholder = 'Room Number'
-            aria-label='An input field for the Room Number'
-            onChange={(event)=>{
-                setRoom(event.target.value);
-            }}/>
-            <button className="join-room-button" onClick={enterRoom}> Join Room </button>
-      </div>
+      <JoinRoom serverDetails = {{updateRoom, socket}}/>
       <GameBoard serverDetails = {{room, socket}}/>
     </div>
   );
