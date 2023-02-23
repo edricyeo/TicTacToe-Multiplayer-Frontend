@@ -6,7 +6,7 @@ const GameBoard = (props) => {
   const { room, socket } = props.serverDetails;
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isYourTurn, setIsYourTurn] = useState(false);
-  const [symbol, setSymbol] = useState("O");
+  const [symbol, setSymbol] = useState(null);
 
   // Receiving information from the server
   useEffect( () => {
@@ -16,10 +16,10 @@ const GameBoard = (props) => {
       setIsYourTurn(true);
     });
 
-    socket.on("assignSymbol", (data) => {
+    socket.on("assign_symbol", (data) => {
       console.log("client received symbol:")
       setSymbol(data.symbol);
-      if (data.symbol === 'X') {
+      if (data.symbol === 'O') {
         setIsYourTurn(true);
       }
     });
@@ -110,8 +110,10 @@ const GameBoard = (props) => {
    * Resets the board to its initial state.
    */
   const resetBoard = () => {
-    setSquares(Array(9).fill(null));
-    sendUpdatedBoard(Array(9).fill(null));
+    if (isYourTurn || status === 'You lose!' || status === 'You win!') {
+      setSquares(Array(9).fill(null));
+      sendUpdatedBoard(Array(9).fill(null));
+    }
   };
 
   // Changes the status displayed according to game conditions
